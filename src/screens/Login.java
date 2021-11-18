@@ -23,6 +23,8 @@ public class Login extends javax.swing.JDialog {
         initComponents();
     }
 
+    
+    public static int userId;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,7 +69,6 @@ public class Login extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Tela de Login da Lulu");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,7 +109,7 @@ public class Login extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPassword)
                     .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
                     .addComponent(btnCancel))
@@ -121,21 +122,38 @@ public class Login extends javax.swing.JDialog {
     private void tfdUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdUsernameActionPerformed
-
+/*
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-      String senha = Md5.getMd5(jPassword.getText());
-        if (new UserDAO().autentication(tfdUsername.getText(), String.valueOf(senha))) {
+      //String senha = Md5.getMd5(jPassword.getText());
+       // if (new UserDAO().autentication(tfdUsername.getText(), String.valueOf(senha))) {
             new MainWindow().setVisible(true);
             this.dispose();
             
+        //} else {
+         //   JOptionPane.showMessageDialog(this, "Invalid user or password, please try again!");
+          //  btnLogin.requestFocus();
+       
+        //}
+          
+    }//GEN-LAST:event_btnLoginActionPerformed
+*/
+    public void btnLoginActionPerformed(java.awt.event.ActionEvent evt) { 
+        String senha = Md5.getMd5(jPassword.getText());
+        String name = tfdUsername.getText();
+        if (new UserDAO().autentication(tfdUsername.getText(), String.valueOf(senha))) {
+            UserDAO udao = new UserDAO();
+            userId = udao.returnIdUserLogged(name, senha);
+            new MainWindow().setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Invalid user or password, please try again!");
             btnLogin.requestFocus();
-       
+            
         }
-          
-    }//GEN-LAST:event_btnLoginActionPerformed
-
+    }
+    
+    
+    
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed

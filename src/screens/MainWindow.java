@@ -46,6 +46,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuCadastros = new javax.swing.JMenu();
         jMenuCadastroPessoa = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -77,6 +78,14 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenuCadastros.add(jMenuCadastroPessoa);
 
+        jMenuItem4.setText("Events Consult");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenuCadastros.add(jMenuItem4);
+
         jMenuBar1.add(jMenuCadastros);
 
         setJMenuBar(jMenuBar1);
@@ -100,6 +109,11 @@ public class MainWindow extends javax.swing.JFrame {
     jDesktopPane1.add(u);
     u.setVisible(true);
     }//GEN-LAST:event_jMenuCadastroPessoaActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    IfrEvents u = new IfrEvents();
+    u.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,5 +161,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import screens.IfrUserRegister;
+import static screens.Login.userId;
 import support.DBConnection;
 import support.IDAOT;
 
@@ -30,6 +31,7 @@ public class UserDAO implements IDAOT<User> {
     ResultSet resultadoQ3 = null;
     ResultSet resultadoQ4 = null;
     ResultSet resultadoQ5 = null;
+    ResultSet resultadoQ6 = null;
     public boolean autentication(String login, String password) {
 
         try {
@@ -53,6 +55,68 @@ public class UserDAO implements IDAOT<User> {
             return false;
         }
     }
+    
+    public int returnIdUserLogged(String login, String password) {
+        int id = 0;
+        try {
+            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT id "
+                    + "FROM userr "
+                    + "WHERE "
+                    + "email = '" + login + "' AND "
+                    + "password = '" + password + "'";
+
+            resultadoQ6 = st.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            id = resultadoQ6.getInt("id");
+            }
+            
+            
+
+        } catch (Exception e) {
+            System.out.println("Authentication Error: " + e);
+        }
+        
+        return id;
+    }
+    
+        public String returnNameUserLogged(String login, String password) {
+        String name = "";
+        try {
+            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT name "
+                    + "FROM userr "
+                    + "WHERE "
+                    + "email = '" + login + "' AND "
+                    + "password = '" + password + "'";
+
+            resultadoQ6 = st.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            name = resultadoQ3.getString("name");
+            }
+            
+            
+
+        } catch (Exception e) {
+            System.out.println("Authentication Error: " + e);
+        }
+        
+        return name;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
         public int consultComboGenre (int id) {
             int idaux = 0;
