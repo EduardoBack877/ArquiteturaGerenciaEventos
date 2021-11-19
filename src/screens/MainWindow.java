@@ -47,6 +47,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuCadastros = new javax.swing.JMenu();
         jMenuCadastroPessoa = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jAvailableEvents = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -78,13 +79,21 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenuCadastros.add(jMenuCadastroPessoa);
 
-        jMenuItem4.setText("Events Consult");
+        jMenuItem4.setText("Event Registration");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
         jMenuCadastros.add(jMenuItem4);
+
+        jAvailableEvents.setText("My Events");
+        jAvailableEvents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAvailableEventsActionPerformed(evt);
+            }
+        });
+        jMenuCadastros.add(jAvailableEvents);
 
         jMenuBar1.add(jMenuCadastros);
 
@@ -114,6 +123,11 @@ public class MainWindow extends javax.swing.JFrame {
     IfrEvents u = new IfrEvents();
     u.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jAvailableEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAvailableEventsActionPerformed
+        IfrMyEvents u = new IfrMyEvents();
+        u.setVisible(true);
+    }//GEN-LAST:event_jAvailableEventsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jAvailableEvents;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuCadastroPessoa;
