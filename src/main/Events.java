@@ -3,7 +3,7 @@ package main;
 import screens.Login;
 import support.DBConnection;
 import java.sql.Statement;
-import screens.MainWindow;
+import screens.MainWindowUser;
 
 
 public class Events {

@@ -82,6 +82,48 @@ public class UserDAO implements IDAOT<User> {
         return id;
     }
     
+    
+        public String returnTypeUserLogged(int id) {
+        String clerk = "";
+        try {
+            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT clerk as clerk "
+                    + "FROM userr "
+                    + "WHERE "
+                    + "id = " + id;
+
+            resultadoQ6 = st.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            clerk = resultadoQ6.getString("clerk");
+            }
+            
+            
+
+        } catch (Exception e) {
+            System.out.println("Authentication Error: " + e);
+        }
+        
+        return clerk;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         public String returnNameUserLogged(String login, String password) {
         String name = "";
         try {
@@ -206,7 +248,8 @@ public class UserDAO implements IDAOT<User> {
                         + "phone = '" + u.getPhone()+ "',"
                         + "birthdate = '" + u.getBirthdate()+ "',"
                         + "genre = '" + u.getGenre()+ "',"
-                        + "active = '" + u.getActive()+ "' "
+                        + "active = '" + u.getActive()+ "', "
+                        + "clerk = 'N' "
                         + "WHERE id = " + u.getId();
            
             System.out.println("SQL: " + sql);
@@ -243,7 +286,8 @@ public class UserDAO implements IDAOT<User> {
                     +  "'" + u.getPhone() + "',"    
                     +  "'" + u.getBirthdate() + "',"
                     +  "'" + u.getGenre() + "',"
-                    +  "'" + u.getActive()+ "'"  
+                    +  "'" + u.getActive()+ "',"
+                    + "clerk = 'N'"
                     + ")";
                   
              } else {

@@ -126,7 +126,7 @@ public class Login extends javax.swing.JDialog {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
       //String senha = Md5.getMd5(jPassword.getText());
        // if (new UserDAO().autentication(tfdUsername.getText(), String.valueOf(senha))) {
-            new MainWindow().setVisible(true);
+            new MainWindowUser().setVisible(true);
             this.dispose();
             
         //} else {
@@ -140,11 +140,17 @@ public class Login extends javax.swing.JDialog {
     public void btnLoginActionPerformed(java.awt.event.ActionEvent evt) { 
         String senha = Md5.getMd5(jPassword.getText());
         String name = tfdUsername.getText();
+        String clerk = "";
         if (new UserDAO().autentication(tfdUsername.getText(), String.valueOf(senha))) {
             UserDAO udao = new UserDAO();
             userId = udao.returnIdUserLogged(name, senha);
-            new MainWindow().setVisible(true);
+            clerk = udao.returnTypeUserLogged(userId);
+            if (clerk.equals("N")) {
+            new MainWindowUser().setVisible(true);
             this.dispose();
+            } else {
+                System.out.println("Abre tela de funcionario");
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid user or password, please try again!");
             btnLogin.requestFocus();
