@@ -30,6 +30,11 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         tfdIdEvents1.setText("0");
         tfdIdEvents1.setEnabled(false);
         Formatacao.formatarCpf(tfdCpfs);
+        tfdMode.setEnabled(false);
+        btnOfflineMode.setEnabled(true);
+        btnOnlineMode.setEnabled(false);
+        tfdMode.setText("Online");
+        checkBoxParticipantWithAccount.setEnabled(false);
     }
     
     public static int idS;
@@ -79,6 +84,11 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         tfdIdEvents1 = new javax.swing.JTextField();
         tfdEventDate1 = new javax.swing.JFormattedTextField();
         tfdCpfs = new javax.swing.JFormattedTextField();
+        btnOnlineMode = new javax.swing.JButton();
+        btnOfflineMode = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        tfdMode = new javax.swing.JTextField();
+        checkBoxParticipantWithAccount = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -346,6 +356,24 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             }
         });
 
+        btnOnlineMode.setText("Online Mode");
+        btnOnlineMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOnlineModeActionPerformed(evt);
+            }
+        });
+
+        btnOfflineMode.setText("Offline Mode");
+        btnOfflineMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOfflineModeActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Selected Mode");
+
+        checkBoxParticipantWithAccount.setText("Participant With Account");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -363,56 +391,75 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(checkBoxParticipantWithAccount)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
+                                .addGap(44, 44, 44)
                                 .addComponent(jButton7))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfdEventDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton6))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(211, 211, 211)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(67, 67, 67)
-                                        .addComponent(jButton8)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE))))
                 .addGap(16, 16, 16))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(229, 229, 229)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton8))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdEventDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(281, 281, 281)
+                        .addComponent(btnOnlineMode)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnOfflineMode))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(304, 304, 304)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfdMode, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnOnlineMode)
+                    .addComponent(btnOfflineMode))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(tfdMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
-                    .addComponent(jLabel5)
-                    .addComponent(tfdEventDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdEventDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jButton8)
-                            .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel15)
-                        .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7)
+                    .addComponent(checkBoxParticipantWithAccount))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jButton8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(btnClose1)
                 .addContainerGap())
         );
@@ -534,6 +581,20 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void btnOnlineModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnlineModeActionPerformed
+              btnOnlineMode.setEnabled(false);
+       btnOfflineMode.setEnabled(true);
+       tfdMode.setText("Online");
+       checkBoxParticipantWithAccount.setEnabled(false);
+    }//GEN-LAST:event_btnOnlineModeActionPerformed
+
+    private void btnOfflineModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfflineModeActionPerformed
+       btnOnlineMode.setEnabled(true);
+       btnOfflineMode.setEnabled(false);
+       tfdMode.setText("Offline");
+       checkBoxParticipantWithAccount.setEnabled(true);
+    }//GEN-LAST:event_btnOfflineModeActionPerformed
+
     
     
     
@@ -586,6 +647,9 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     private javax.swing.JTable TableUsersAttendance;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnClose1;
+    private javax.swing.JButton btnOfflineMode;
+    private javax.swing.JButton btnOnlineMode;
+    private javax.swing.JCheckBox checkBoxParticipantWithAccount;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -603,6 +667,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
@@ -617,6 +682,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     private javax.swing.JTextField tfdIdEvents;
     private javax.swing.JTextField tfdIdEvents1;
     private javax.swing.JTextField tfdIdUser;
+    private javax.swing.JTextField tfdMode;
     private javax.swing.JTextField tfdUserSearch;
     // End of variables declaration//GEN-END:variables
 }
