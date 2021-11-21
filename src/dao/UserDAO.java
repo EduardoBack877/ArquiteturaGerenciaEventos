@@ -264,7 +264,94 @@ public class UserDAO implements IDAOT<User> {
         }
      
     }
-     
+    
+      public boolean consultCpf (String cpf) {
+          boolean y = true;
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "SELECT * "
+                    + "FROM userr "
+                    + "WHERE cpf = '" + cpf + "'";
+            resultadoQ3 = st2.executeQuery(sql3);
+            if (!resultadoQ3.isBeforeFirst()) {
+              y = false;
+            } else {
+              y = true;
+            }
+            
+         
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             
+        }
+         return y;
+      }
+        
+
+    
+          public int consultIdUser (String cpf) {
+          int y = 0;
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "SELECT id "
+                    + "FROM userr "
+                    + "WHERE cpf = '" + cpf + "'";
+            resultadoQ3 = st2.executeQuery(sql3);
+            System.out.println(sql3);
+            System.out.println("TENTEI ENTRAR NO IF GALERA");
+            if (resultadoQ3.next()) {
+                System.out.println("ESTOU DENTRO DO IF GALERA");
+                y =  resultadoQ3.getInt("id");
+                System.out.println("O VALOR DO Y QUE ESTOU FAZENDO É " + y);
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             
+        }
+         return y;
+      }
+    
+          
+        public void insertUserOnlyCpf (String cpf) {
+          int y = 0;
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "INSERT INTO userr VALUES (default,NULL,NULL,NULL,'"+cpf+"',NULL,NULL,NULL,NULL,NULL)";
+            resultadoQ3 = st2.executeQuery(sql3);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             
+        }
+      }
+        
+          public void insertUserExceptCpf (User u) {
+          int y = 0;
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "UPDATE userr SET name = '" + u.getName() + "',"
+                    +  "email = '" + u.getEmail() + "',"
+                    +  "password = md5('" + u.getPassword() + "'),"
+                    +  "phone = '" + u.getPhone() + "',"    
+                    +  "birthdate = '" + u.getBirthdate() + "',"
+                    +  "genre = '" + u.getGenre() + "',"
+                    +  "active = '" + u.getActive()+ "',"
+                    +  "clerk = 'N' "
+                    +  "WHERE cpf = '" + u.getCpf() + "'";
+
+                 
+            resultadoQ3 = st2.executeQuery(sql3);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             
+        }
+      }
+          
+        
+        
+          
+    
+    
+    
      
      
      
@@ -287,7 +374,7 @@ public class UserDAO implements IDAOT<User> {
                     +  "'" + u.getBirthdate() + "',"
                     +  "'" + u.getGenre() + "',"
                     +  "'" + u.getActive()+ "',"
-                    + "clerk = 'N'"
+                    +  "'N'"
                     + ")";
                   
              } else {
@@ -531,6 +618,139 @@ public class UserDAO implements IDAOT<User> {
 //            }
 //        });
     }
+   
+   public void popularTabelaEventAttendance (JTable tabela, String criterio, int idevent) {
+    int numColunas = 4;
+        User u = new User();
+        IfrUserRegister ifru = new IfrUserRegister();
+        // dados da tabela
+        Object[][] dadosTabela = null;
+
+        // cabecalho da tabela
+        Object[] cabecalho = new Object[numColunas];
+        cabecalho[0] = "Id";
+        cabecalho[1] = "Name";
+        cabecalho[2] = "CPF";
+        cabecalho[3] = "Phone";
+        
+        int lin = 0;
+        
+       
+        //efetua consulta na tabela
+        try {
+            resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT DISTINCT userr.id, "
+                    + "userr.name, "
+                    + "userr.cpf, "
+                    + "userr.phone "
+                    + "FROM userr " 
+                    + "JOIN userhasevents ON userr.id = userhasevents.iduser "
+                    + "JOIN events ON events.id = userhasevents.idevent "
+                    + "WHERE userr.name ILIKE '%" + criterio + "%' AND userhasevents.idevent = " + idevent + " AND userhasevents.active = 'N' "
+                    + "ORDER BY userr.id");
+            
+            
+            
+            
+  /*          String sqlteste = "SELECT id, name, cpf, phone "
+                    + "FROM userr "
+                    + "WHERE name ILIKE '%" + criterio + "%'"
+                    + "ORDER BY id";
+            System.out.println(sqlteste);
+            */
+            System.out.println("cheguei aqui");
+            // captura a linha = num de registros
+            // retorna para o inicio
+  
+              resultadoQ.last();
+            int numRegistros = resultadoQ.getRow();
+            resultadoQ.beforeFirst();
+            
+            dadosTabela = new Object[numRegistros][numColunas];
+         
+            while (resultadoQ.next()) {
+                System.out.println("entrei no while");
+                dadosTabela[lin][0] = resultadoQ.getInt("id");
+                dadosTabela[lin][1] = resultadoQ.getString("name");
+                dadosTabela[lin][2] = resultadoQ.getString("cpf");
+                dadosTabela[lin][3] = resultadoQ.getString("phone");
+                
+                      lin++;}
+         
+            
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+
+        // configuracoes adicionais no componente tabela
+        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            // quando retorno for FALSE, a tabela nao é editavel
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                /*  
+                 if (column == 3) {  // apenas a coluna 3 sera editavel
+                 return true;
+                 } else {
+                 return false;
+                 }
+                 */
+            }
+
+            // alteracao no metodo que determina a coluna em que o objeto ImageIcon devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+
+                if (column == 2) {
+//                    return ImageIcon.class;
+                }
+                return Object.class;
+            }
+        });
+
+        // permite seleção de apenas uma linha da tabela
+        tabela.setSelectionMode(0);
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(17);
+                    break;
+                case 1:
+                    column.setPreferredWidth(140);
+                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
+            }
+        }
+        // renderizacao das linhas da tabela = mudar a cor
+//        tabela.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+//
+//            @Override
+//            public Component getTableCellRendererComponent(JTable table, Object value,
+//                    boolean isSelected, boolean hasFocus, int row, int column) {
+//                super.getTableCellRendererComponent(table, value, isSelected,
+//                        hasFocus, row, column);
+//                if (row % 2 == 0) {
+//                    setBackground(Color.GREEN);
+//                } else {
+//                    setBackground(Color.LIGHT_GRAY);
+//                }
+//                return this;
+//            }
+//        });
+    }
+   
+   
+   
+   
+   
 }
    
 

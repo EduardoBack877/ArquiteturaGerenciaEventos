@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import screens.IfrUserRegister;
+import static screens.Login.userId;
 import support.DBConnection;
 import support.IDAOT;
 
@@ -28,7 +29,7 @@ public class EventsDAO implements IDAOT<Events> {
      ResultSet resultadoQ = null;
      ResultSet resultadoQ1 = null;
      ResultSet resultadoQ3 = null;
-    
+     ResultSet resultadoQ8 = null;
     
     @Override
     public boolean save(Events o) {
@@ -66,6 +67,51 @@ public class EventsDAO implements IDAOT<Events> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+     public void insertUserHasEvents(int user, int event) {
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "INSERT INTO userhasevents VALUES ("
+                    + "default,'Y','Registered','Y'," + user + "," + event + ")";
+            resultadoQ3 = st2.executeQuery(sql3);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        public void saveAttendance(int user, int event) {
+        try {
+            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            String sql33 = "UPDATE userhasevents "
+                    + "SET quickcheckin = 'N',"
+                    + "active = 'Y' "
+                    + "WHERE iduser = " + user + " AND idevent = " + event;
+            System.out.println(sql33);
+            System.out.println("acabei de chegar aqui gurizada papapapa");
+            resultadoQ8 = st2.executeQuery(sql33);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     
     public int returnDateDiffCurrentDateVsEventDate(int event) {
         int days = 0;
@@ -319,7 +365,7 @@ public class EventsDAO implements IDAOT<Events> {
                     + "FROM events "
                     + "JOIN userhasevents ON events.id = userhasevents.idevent "
                     + "JOIN userr on userr.id = userhasevents.iduser "
-                    + "WHERE description ILIKE '%" + criterio + "%' AND userhasevents.status = 'Registered'"
+                    + "WHERE description ILIKE '%" + criterio + "%' AND userhasevents.status = 'Registered' AND userhasevents.iduser = " + userId
                     + "ORDER BY id");
             
             
@@ -409,6 +455,153 @@ public class EventsDAO implements IDAOT<Events> {
 //            }
 //        });
     }
+     
+     public void popularTabela3 (JTable tabela, String dataevent) {
+    int numColunas = 7;
+        User u = new User();
+        IfrUserRegister ifru = new IfrUserRegister();
+        // dados da tabela
+        Object[][] dadosTabela = null;
+
+        // cabecalho da tabela
+        Object[] cabecalho = new Object[numColunas];
+        cabecalho[0] = "Id";
+        cabecalho[1] = "Description";
+        cabecalho[2] = "Location";
+        cabecalho[3] = "Category";
+        cabecalho[4] = "Event Date";
+        cabecalho[5] = "Start Time";
+        cabecalho[6] = "End Time";
+        
+             
+        
+        int lin = 0;
+        
+        
+        String sqlt = "SELECT events.id, "
+                    + "events.description, "
+                    + "events.location, "
+                    + "events.category, "
+                    + "to_char(events.eventdate, 'dd/MM/yyyy') as eventdate, "    
+                    + "events.starttime, "
+                    + "events.endtime "
+                    + "FROM events "
+                    + "JOIN userhasevents ON events.id = userhasevents.idevent "
+                    + "JOIN userr on userr.id = userhasevents.iduser "
+                    + "WHERE to_char(events.eventdate, 'dd/MM/yyyy') = " +dataevent
+                    + " ORDER BY id";
+            
+            System.out.println("está executando este comando = " + sqlt);
+        
+       
+        //efetua consulta na tabela
+        try {
+            resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT DISTINCT events.id, "
+                    + "events.description, "
+                    + "events.location, "
+                    + "events.category, "
+                    + "to_char(events.eventdate, 'dd/MM/yyyy') as eventdate, "    
+                    + "events.starttime, "
+                    + "events.endtime "
+                    + "FROM events "
+                    + "JOIN userhasevents ON events.id = userhasevents.idevent "
+                    + "JOIN userr on userr.id = userhasevents.iduser "
+                    + "WHERE to_char(events.eventdate, 'dd/MM/yyyy') = '" + dataevent + "' "
+                    + "ORDER BY id");
+            
+            
+            
+            
+              resultadoQ.last();
+            int numRegistros = resultadoQ.getRow();
+            resultadoQ.beforeFirst();
+            
+            dadosTabela = new Object[numRegistros][numColunas];
+         
+            while (resultadoQ.next()) {
+                System.out.println("entrei no while");
+                dadosTabela[lin][0] = resultadoQ.getString("id");
+                dadosTabela[lin][1] = resultadoQ.getString("description");
+                dadosTabela[lin][2] = resultadoQ.getString("location");
+                dadosTabela[lin][3] = resultadoQ.getString("category");
+                dadosTabela[lin][4] = resultadoQ.getString("eventdate");
+                dadosTabela[lin][5] = resultadoQ.getString("starttime");
+                dadosTabela[lin][6] = resultadoQ.getString("endtime");
+                
+                      lin++;}
+         
+            
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+
+        // configuracoes adicionais no componente tabela
+        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            // quando retorno for FALSE, a tabela nao é editavel
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                /*  
+                 if (column == 3) {  // apenas a coluna 3 sera editavel
+                 return true;
+                 } else {
+                 return false;
+                 }
+                 */
+            }
+
+            // alteracao no metodo que determina a coluna em que o objeto ImageIcon devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+
+                if (column == 2) {
+//                    return ImageIcon.class;
+                }
+                return Object.class;
+            }
+        });
+
+        // permite seleção de apenas uma linha da tabela
+        tabela.setSelectionMode(0);
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(17);
+                    break;
+                case 1:
+                    column.setPreferredWidth(140);
+                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
+            }
+        }
+        // renderizacao das linhas da tabela = mudar a cor
+//        tabela.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+//
+//            @Override
+//            public Component getTableCellRendererComponent(JTable table, Object value,
+//                    boolean isSelected, boolean hasFocus, int row, int column) {
+//                super.getTableCellRendererComponent(table, value, isSelected,
+//                        hasFocus, row, column);
+//                if (row % 2 == 0) {
+//                    setBackground(Color.GREEN);
+//                } else {
+//                    setBackground(Color.LIGHT_GRAY);
+//                }
+//                return this;
+//            }
+//        });
+    }
+     
+     
      
      
      

@@ -28,7 +28,7 @@ public class UserHasEventsDAO implements IDAOT<UserHasEvents> {
                         + "default,"
                         + "NULL,"
                         + "'Registered',"
-                        + "'Y',"
+                        + "'N',"
                         + userId + ","
                         + o.getIdevent() + ")";
            

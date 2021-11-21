@@ -26,18 +26,10 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Event Registration"/>
+                <Property name="text" type="java.lang.String" value="Event Attendance"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jAvailableEvents">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="My Events"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAvailableEventsActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

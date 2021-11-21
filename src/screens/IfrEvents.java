@@ -417,8 +417,8 @@ public class IfrEvents extends javax.swing.JFrame {
         UserHasEventsDAO uheDAO = new UserHasEventsDAO();
         UserHasEvents uhe = new UserHasEvents();
         String idString = String.valueOf(tableAvailableEvents.getValueAt(tableAvailableEvents.getSelectedRow(), 0));
-        int idS = Integer.parseInt(idString);
-        uhe.setIdevent(idS);
+        int idZ = Integer.parseInt(idString);
+        uhe.setIdevent(idZ);
         if (uheDAO.save(uhe)) {
             JOptionPane.showMessageDialog(this, "Your application has been submitted successfully");
         } else {

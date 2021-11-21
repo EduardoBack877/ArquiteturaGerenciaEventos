@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package screens;
 
@@ -14,13 +14,15 @@ import support.Validacao;
  *
  * @author dudub
  */
-public class IfrUserRegister extends javax.swing.JInternalFrame {
+public class JFrameUserRegister extends javax.swing.JFrame {
 
     /**
-     * Creates new form IfrUserRegister
+     * Creates new form NewJFrame
      */
-    public IfrUserRegister() {
+    public JFrameUserRegister() {
         initComponents();
+        tfdIdCadUsuarios.setText("0");
+        tfdIdCadUsuarios.setEnabled(false);
         Formatacao.formatarData(tfdBirthDate);
         Formatacao.formatarCpf(tfdCpf);
         Formatacao.formatarTelefone(tfdPhone);
@@ -35,63 +37,58 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableCadUser = new javax.swing.JTable();
         tfdName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         tfdIdCadUsuarios = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        tfdPesquisarCadUsuarios = new javax.swing.JTextField();
+        tfdEmail = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPassword = new javax.swing.JPasswordField();
+        tfdBirthDate = new javax.swing.JFormattedTextField();
         jLabel16 = new javax.swing.JLabel();
         ComboGenre = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        btnEdit = new javax.swing.JButton();
         ComboStatus = new javax.swing.JComboBox<>();
-        btnDelete = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         tfdCpf = new javax.swing.JFormattedTextField();
         btnClearFields = new javax.swing.JButton();
         tfdPhone = new javax.swing.JFormattedTextField();
-        btnPesquisar = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
-        tfdEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jPassword = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
-        tfdBirthDate = new javax.swing.JFormattedTextField();
 
-        jTableCadUser.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Id", "Name", "Login", "Status"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTableCadUser);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel4.setText("Password");
 
         jLabel7.setText("Id");
 
-        jLabel8.setText("Search");
+        tfdIdCadUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdIdCadUsuariosActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Email");
+
+        jLabel14.setText("CPF");
+
+        jLabel15.setText("Phone");
+
+        jPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordActionPerformed(evt);
+            }
+        });
+
+        tfdBirthDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdBirthDateActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("Birth Date");
 
@@ -107,21 +104,7 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
 
         jLabel17.setText("Genre");
 
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
         ComboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive" }));
-
-        btnDelete.setText("Delete");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
 
         jLabel18.setText("Status");
 
@@ -151,13 +134,6 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
             }
         });
 
-        btnPesquisar.setText("Search");
-        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarActionPerformed(evt);
-            }
-        });
-
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,27 +142,6 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
         });
 
         jLabel3.setText("Name");
-
-        jLabel13.setText("Email");
-
-        jLabel14.setText("CPF");
-
-        jLabel15.setText("Phone");
-
-        jPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("User Search");
-
-        tfdBirthDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfdBirthDateActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,13 +152,6 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfdPesquisarCadUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnPesquisar))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,59 +181,38 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel18))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(ComboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(302, 302, 302)
-                                                .addComponent(btnClearFields))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(109, 109, 109)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(btnSalvar)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(jLabel2)
-                                                            .addGap(120, 120, 120)
-                                                            .addComponent(btnEdit)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(btnDelete)))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(304, 304, 304)
-                                                        .addComponent(btnClose))))))
+                                    .addComponent(ComboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(ComboGenre, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tfdBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(249, 249, 249)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnClearFields)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnSalvar))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(240, 240, 240)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(304, 304, 304)
+                                .addComponent(btnClose)))))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(tfdPesquisarCadUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(39, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(tfdIdCadUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnDelete)
-                                .addComponent(btnEdit)))
+                        .addContainerGap()
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -327,76 +254,23 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
                             .addComponent(btnSalvar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordActionPerformed
+
+    private void tfdBirthDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdBirthDateActionPerformed
+
+    }//GEN-LAST:event_tfdBirthDateActionPerformed
+
     private void ComboGenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboGenreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboGenreActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        String idString = String.valueOf(jTableCadUser.getValueAt(jTableCadUser.getSelectedRow(), 0));
-        int idS = Integer.parseInt(idString);
-        int x;
-        int z;
-        tfdIdCadUsuarios.setEditable(false);
-        // criar instancia SecaoDAO
-        UserDAO uDAO = new UserDAO();
-
-        // criar instancia Secao
-        User usuario = uDAO.consultId(idS);
-        if (usuario != null) {
-            // define os valores do obj nos campos da tela
-            tfdIdCadUsuarios.setText(""+usuario.getId());
-            tfdName.setText(usuario.getName());
-            tfdEmail.setText(usuario.getEmail());
-            jPassword.setText(usuario.getPassword());
-            tfdCpf.setText(usuario.getCpf());
-            tfdPhone.setText(usuario.getPhone());
-            tfdBirthDate.setText(usuario.getBirthdate());
-
-            String f = usuario.getBirthdate();
-            x = uDAO.consultComboGenre(usuario.getId());
-            if (x == 1) {
-                ComboGenre.setSelectedIndex(1);
-            } else if (x == 2) {
-                ComboGenre.setSelectedIndex(2);
-            } else {
-                ComboGenre.setSelectedIndex(3);
-            }
-            z = uDAO.consultComboActive(usuario.getId());
-            if (z == 1) {
-                ComboStatus.setSelectedIndex(0);
-            } else {
-                ComboStatus.setSelectedIndex(1);
-            }
-            uDAO.popularTabela(jTableCadUser, tfdPesquisarCadUsuarios.getText());
-            tfdName.requestFocus();
-        }
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        tfdIdCadUsuarios.setEditable(false);
-        if (JOptionPane.showConfirmDialog(this, "Are you sure that you want to delete?") == JOptionPane.OK_OPTION) {
-
-            String idString = String.valueOf(jTableCadUser.getValueAt(jTableCadUser.getSelectedRow(), 0));
-            System.out.println(idString);
-            int idExclusao = Integer.parseInt(idString);
-
-            UserDAO uDAO = new UserDAO();
-
-            if (uDAO.delete(idExclusao)) {
-                JOptionPane.showMessageDialog(null, "User deleted sucessfully!");
-                uDAO.popularTabela(jTableCadUser, tfdPesquisarCadUsuarios.getText());
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Problems when deleting user");
-            }
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // cria instancia usuario
@@ -498,52 +372,28 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
                 u.setActive("I");
             }
 
-            if (idaux1 != 0 ) {
-                senhaaux = jPassword.getText();
-                if (uDAO.returnpassword(idaux1).equals(senhaaux)) {
-                    igual = 0;
-                } else {
-                    igual = 1;
-                };
-            }
 
-            // cadastrar com senha
-
-            if (igual == 0) {
-                uDAO.setDataStyle();
-                if (uDAO.savewithoutmd5(u)) {
-                    if (idaux1 == 0) {
-                        JOptionPane.showMessageDialog(this, "Record was successfully saved!");
-                        limparCampos();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Record was successfully edited!");
-                        limparCampos();
-                    }
-                }
+            if (uDAO.consultCpf(d)) {
+              uDAO.setDataStyle();
+              uDAO.insertUserExceptCpf(u);
+              JOptionPane.showMessageDialog(null, "User updated and registered sucessfully! \nCertificates of attended events are available in the system!");
+              
             } else {
                 uDAO.setDataStyle();
-                if (uDAO.save(u)) {
-                    if (idaux1 == 0) {
-                        JOptionPane.showMessageDialog(this, "Record was successfully saved!");
-                        limparCampos();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Record was successfully edited!");
-                        limparCampos();
-                    }
-                }
+                uDAO.save(u);
+                JOptionPane.showMessageDialog(null, "User registered sucessfully!");
             }
+                    
 
-            uDAO.popularTabela(jTableCadUser, tfdPesquisarCadUsuarios.getText());
             //limpa os campos
             limparCampos();
             tfdName.requestFocus();
 
             auxiliar = 'S';
         }
-    }//GEN-LAST:event_btnSalvarActionPerformed
 
-    
-    private void limparCampos () {
+    }//GEN-LAST:event_btnSalvarActionPerformed
+private void limparCampos () {
         tfdIdCadUsuarios.setText("0");
         tfdName.setText("");
         tfdEmail.setText("");
@@ -578,33 +428,57 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdPhoneActionPerformed
 
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-       new UserDAO().popularTabela(jTableCadUser,tfdPesquisarCadUsuarios.getText());
-    }//GEN-LAST:event_btnPesquisarActionPerformed
-
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
+        new Login(null, true).setVisible(true);
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void jPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordActionPerformed
+    private void tfdIdCadUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdIdCadUsuariosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordActionPerformed
+    }//GEN-LAST:event_tfdIdCadUsuariosActionPerformed
 
-    private void tfdBirthDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdBirthDateActionPerformed
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(JFrameUserRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JFrameUserRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JFrameUserRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFrameUserRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
 
-    }//GEN-LAST:event_tfdBirthDateActionPerformed
-
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new JFrameUserRegister().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboGenre;
     private javax.swing.JComboBox<String> ComboStatus;
     private javax.swing.JButton btnClearFields;
     private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -615,16 +489,12 @@ public class IfrUserRegister extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField jPassword;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableCadUser;
     private javax.swing.JFormattedTextField tfdBirthDate;
     private javax.swing.JFormattedTextField tfdCpf;
     private javax.swing.JTextField tfdEmail;
     private javax.swing.JTextField tfdIdCadUsuarios;
     private javax.swing.JTextField tfdName;
-    private javax.swing.JTextField tfdPesquisarCadUsuarios;
     private javax.swing.JFormattedTextField tfdPhone;
     // End of variables declaration//GEN-END:variables
 }

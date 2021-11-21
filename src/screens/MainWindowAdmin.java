@@ -18,12 +18,12 @@ import javax.swing.JOptionPane;
  *
  * @author fabricio.pretto
  */
-public class MainWindowUser extends javax.swing.JFrame {
+public class MainWindowAdmin extends javax.swing.JFrame {
 
     /**
      * Creates new form JanelaPrincipal
      */
-    public MainWindowUser() {
+    public MainWindowAdmin() {
         initComponents();
 
         // abre tela maximizada
@@ -45,6 +45,7 @@ public class MainWindowUser extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuCadastros = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jAvailableEvents = new javax.swing.JMenuItem();
 
@@ -69,6 +70,14 @@ public class MainWindowUser extends javax.swing.JFrame {
         );
 
         jMenuCadastros.setText("Registration Section");
+
+        jMenuItem5.setText("User Register");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenuCadastros.add(jMenuItem5);
 
         jMenuItem4.setText("Event Registration");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +123,11 @@ public class MainWindowUser extends javax.swing.JFrame {
         u.setVisible(true);
     }//GEN-LAST:event_jAvailableEventsActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+            IfrUserRegister u = new IfrUserRegister();
+            u.setVisible(true);  
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -131,14 +145,22 @@ public class MainWindowUser extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindowUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindowAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindowUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindowAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindowUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindowAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindowUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindowAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -151,7 +173,7 @@ public class MainWindowUser extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindowUser().setVisible(true);
+                new MainWindowAdmin().setVisible(true);
             }
         });
     }
@@ -165,5 +187,6 @@ public class MainWindowUser extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     // End of variables declaration//GEN-END:variables
 }
