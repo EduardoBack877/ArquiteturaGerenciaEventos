@@ -18,6 +18,7 @@ import javax.swing.table.TableColumn;
 import screens.IfrUserRegister;
 import static screens.Login.userId;
 import support.DBConnection;
+import support.DBConnectionLocalHost;
 import support.IDAOT;
 
 /**
@@ -58,11 +59,13 @@ public class EventsDAO implements IDAOT<Events> {
 
     public void cancelEvent(int user, int event) {
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "UPDATE userhasevents "
                     + "SET status = 'Canceled' "
                     + "WHERE iduser = " + user + " AND idevent = " + event;
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,10 +73,12 @@ public class EventsDAO implements IDAOT<Events> {
     
      public void insertUserHasEvents(int user, int event) {
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "INSERT INTO userhasevents VALUES ("
                     + "default,'Y','Registered','Y'," + user + "," + event + ")";
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,14 +98,14 @@ public class EventsDAO implements IDAOT<Events> {
     
         public void saveAttendance(int user, int event) {
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql33 = "UPDATE userhasevents "
                     + "SET quickcheckin = 'N',"
                     + "active = 'Y' "
                     + "WHERE iduser = " + user + " AND idevent = " + event;
-            System.out.println(sql33);
-            System.out.println("acabei de chegar aqui gurizada papapapa");
             resultadoQ8 = st2.executeQuery(sql33);
+            resultadoQ8 = st3.executeQuery(sql33);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -116,15 +121,16 @@ public class EventsDAO implements IDAOT<Events> {
     public int returnDateDiffCurrentDateVsEventDate(int event) {
         int days = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "SELECT eventdate - CURRENT_DATE as days "
                     + "FROM events "
                     + "WHERE id = " + event;
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
             while (resultadoQ3.next()) {
                days = resultadoQ3.getInt("days");
             }
-            System.out.println("DIFERENÇA DE DIAS CALCULADO COM SUCESSO");
             return days;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +146,8 @@ public class EventsDAO implements IDAOT<Events> {
 
         try {
             String p;
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             System.out.println("aqu");
             String sql1 = "SELECT id, description, location, category, to_char(eventdate, 'dd/MM/yyyy') as eventdate, starttime, endtime, appperiodstartdate, appperiodenddate, status "
                     + "FROM events "
@@ -150,6 +157,7 @@ public class EventsDAO implements IDAOT<Events> {
             System.out.println("SQL: " + sql1);
             //int aux = Integer.parseInt(resultadoQ1.getString("status"));
             resultadoQ1 = st.executeQuery(sql1);
+            resultadoQ1 = st3.executeQuery(sql1);
             if (resultadoQ1.next()) {
                 
                 u = new Events();
@@ -176,9 +184,11 @@ public class EventsDAO implements IDAOT<Events> {
        public int consultComboEventStatus (int id) {
             int idaux = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "SELECT status FROM events WHERE id = " + id;
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
             String aux = "";
             while (resultadoQ3.next()) {
                aux = resultadoQ3.getString("status");
@@ -228,6 +238,19 @@ public class EventsDAO implements IDAOT<Events> {
        
         //efetua consulta na tabela
         try {
+            resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT id, "
+                    + "description, "
+                    + "location, "
+                    + "category, "
+                    + "to_char(eventdate, 'dd/MM/yyyy') as eventdate, "    
+                    + "starttime, "
+                    + "endtime "
+                    + "FROM events " 
+                    + "WHERE description ILIKE '%" + criterio + "%'"
+                    + "ORDER BY id");
+            
             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
                     + "SELECT id, "
@@ -353,6 +376,21 @@ public class EventsDAO implements IDAOT<Events> {
        
         //efetua consulta na tabela
         try {
+            resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT events.id, "
+                    + "events.description, "
+                    + "events.location, "
+                    + "events.category, "
+                    + "to_char(events.eventdate, 'dd/MM/yyyy') as eventdate, "    
+                    + "events.starttime, "
+                    + "events.endtime "
+                    + "FROM events "
+                    + "JOIN userhasevents ON events.id = userhasevents.idevent "
+                    + "JOIN userr on userr.id = userhasevents.iduser "
+                    + "WHERE description ILIKE '%" + criterio + "%' AND userhasevents.status = 'Registered' AND userhasevents.iduser = " + userId
+                    + "ORDER BY id");
+            
             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
                     + "SELECT events.id, "
@@ -367,6 +405,7 @@ public class EventsDAO implements IDAOT<Events> {
                     + "JOIN userr on userr.id = userhasevents.iduser "
                     + "WHERE description ILIKE '%" + criterio + "%' AND userhasevents.status = 'Registered' AND userhasevents.iduser = " + userId
                     + "ORDER BY id");
+            
             
             
               resultadoQ.last();
@@ -486,16 +525,28 @@ public class EventsDAO implements IDAOT<Events> {
                     + "events.starttime, "
                     + "events.endtime "
                     + "FROM events "
-                    + "JOIN userhasevents ON events.id = userhasevents.idevent "
-                    + "JOIN userr on userr.id = userhasevents.iduser "
                     + "WHERE to_char(events.eventdate, 'dd/MM/yyyy') = " +dataevent
                     + " ORDER BY id";
             
             System.out.println("está executando este comando = " + sqlt);
         
+           
        
         //efetua consulta na tabela
         try {
+            resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT DISTINCT events.id, "
+                    + "events.description, "
+                    + "events.location, "
+                    + "events.category, "
+                    + "to_char(events.eventdate, 'dd/MM/yyyy') as eventdate, "    
+                    + "events.starttime, "
+                    + "events.endtime "
+                    + "FROM events "
+                    + "WHERE to_char(events.eventdate, 'dd/MM/yyyy') = '" + dataevent + "' "
+                    + "ORDER BY id");
+            
             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
                     + "SELECT DISTINCT events.id, "
@@ -506,11 +557,8 @@ public class EventsDAO implements IDAOT<Events> {
                     + "events.starttime, "
                     + "events.endtime "
                     + "FROM events "
-                    + "JOIN userhasevents ON events.id = userhasevents.idevent "
-                    + "JOIN userr on userr.id = userhasevents.iduser "
                     + "WHERE to_char(events.eventdate, 'dd/MM/yyyy') = '" + dataevent + "' "
                     + "ORDER BY id");
-            
             
             
             

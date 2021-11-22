@@ -6,6 +6,18 @@ package screens;
 
 import dao.EventsDAO;
 import dao.UserDAO;
+import dao.UserHasEventsDAO;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import support.Formatacao;
@@ -39,7 +51,9 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     
     public static int idS;
     public static int idE;
-
+    public static boolean btn = false;
+    File file = new File("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/insertuserhasevents.txt");
+    File file1 = new File("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/insertuseronlycpf.txt");
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,6 +103,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         tfdMode = new javax.swing.JTextField();
         checkBoxParticipantWithAccount = new javax.swing.JCheckBox();
+        btnSyncData = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -373,42 +388,25 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         jLabel7.setText("Selected Mode");
 
         checkBoxParticipantWithAccount.setText("Participant With Account");
+        checkBoxParticipantWithAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxParticipantWithAccountActionPerformed(evt);
+            }
+        });
+
+        btnSyncData.setText("Sync Data");
+        btnSyncData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSyncDataActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnClose1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(276, 276, 276)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(checkBoxParticipantWithAccount)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
-                                .addComponent(jButton7))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE))))
-                .addGap(16, 16, 16))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jLabel5)
@@ -425,8 +423,39 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                         .addGap(304, 304, 304)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdMode, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfdMode, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(276, 276, 276)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(checkBoxParticipantWithAccount)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(jButton7))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSyncData)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnClose1)))
+                .addGap(16, 16, 16))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +463,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnOnlineMode)
                     .addComponent(btnOfflineMode))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -454,14 +483,16 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                     .addComponent(tfdIdEvents1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7)
                     .addComponent(checkBoxParticipantWithAccount))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCpfs, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                .addComponent(btnClose1)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClose1)
+                    .addComponent(btnSyncData))
+                .addGap(25, 25, 25))
         );
 
         jTabbedPane1.addTab("Check-In Attendance", jPanel2);
@@ -555,15 +586,22 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     private void tfdCpfsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdCpfsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdCpfsActionPerformed
-
+/*
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+   
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    */
+    
+    
+    public void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         UserDAO udao = new UserDAO();
         EventsDAO edao = new EventsDAO();
-        int user;
+        int user = 0;
         int event = Integer.parseInt(tfdIdEvents1.getText());
         String cpf = tfdCpfs.getText().replace(".", "").replace("-", "");
         
-       boolean x = false;
+        if (btn) {
         if (tfdCpfs.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please fill the CPF field!");
         } else {
@@ -577,15 +615,68 @@ public class IfrEventAttendance extends javax.swing.JFrame {
               JOptionPane.showMessageDialog(this, "Attendance Confirmed! \nRemember to complete the registration after the event! \nRegister is required to generate the certificates!" );
           };
         }
-
+        } else {
+            if (cpf.equals("") || tfdIdEvents1.getText().equals("0")) {
+            JOptionPane.showMessageDialog(null, "All fields should be filled!");
+        } else {
+                System.out.println("o valor do cpf é" + cpf);
+             if (checkBoxParticipantWithAccount.isSelected()) {
+                 //File file = new File("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/test.txt");
+                 try {
+                     if (!file.exists()) {
+                         file.createNewFile();
+                     }
+                     FileWriter fw = new FileWriter(file, true);
+                     BufferedWriter bw = new BufferedWriter(fw);
+                     user = udao.consultIdUserLocalHost(cpf);
+                     if (user == 0) {
+                         JOptionPane.showMessageDialog(null, "User with the cpf informed is not registered!");
+                     } else {
+                     bw.write("INSERT INTO userhasevents VALUES ("
+                        + "default,'Y','Registered','Y'," + user + "," + event + ")");
+                     bw.newLine();
+                     bw.close();
+                     JOptionPane.showMessageDialog(null, "Attendance Confirmed!");
+                     tfdCpfs.setText("");
+                     }
+                     
+                 } catch (IOException ex) {
+                     Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             } else {
+                 // aqui vai ser inserção de apenas o cpf e depois o usuario preenche o restante do cadastro
+                 //File file1 = new File("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/test1.txt");
+                 try {
+                     if (!file1.exists()) {
+                         file1.createNewFile();
+                         System.out.println("entrei aqui");
+                     }
+                     System.out.println("entrei aqui 1");
+                     FileWriter fw1 = new FileWriter(file1, true);
+                     System.out.println("entrei aqui 2");
+                     BufferedWriter bw2 = new BufferedWriter(fw1);
+                     System.out.println("entrei aqui 3");
+                     bw2.write("INSERT INTO userr VALUES (default,NULL,NULL,NULL,'"+cpf+"',NULL,NULL,NULL,NULL,NULL)");
+                     bw2.newLine();
+                     bw2.close();
+              } catch (IOException ex) {
+                     Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+                 } 
+             
+            }
+        }
+        }
+        
+    }                                        
     
-    }//GEN-LAST:event_jButton8ActionPerformed
-
+    
+    
     private void btnOnlineModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnlineModeActionPerformed
               btnOnlineMode.setEnabled(false);
        btnOfflineMode.setEnabled(true);
        tfdMode.setText("Online");
        checkBoxParticipantWithAccount.setEnabled(false);
+       btn = true;
     }//GEN-LAST:event_btnOnlineModeActionPerformed
 
     private void btnOfflineModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfflineModeActionPerformed
@@ -593,7 +684,68 @@ public class IfrEventAttendance extends javax.swing.JFrame {
        btnOfflineMode.setEnabled(false);
        tfdMode.setText("Offline");
        checkBoxParticipantWithAccount.setEnabled(true);
+       btn = false;
     }//GEN-LAST:event_btnOfflineModeActionPerformed
+
+    private void checkBoxParticipantWithAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxParticipantWithAccountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkBoxParticipantWithAccountActionPerformed
+
+    private void btnSyncDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSyncDataActionPerformed
+        FileInputStream stream = null;
+        UserHasEventsDAO uheDAO = new UserHasEventsDAO();
+        FileInputStream stream1 = null;
+        try {
+            stream = new FileInputStream("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/insertuserhasevents.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(reader);
+        String linha = "";
+        while(linha != null) {
+            System.out.println(linha);
+            try {
+                linha = br.readLine();
+                System.out.println("testando 1");
+                uheDAO.InsertModeOff(linha);
+                System.out.println("testando 2");
+            } catch (IOException ex) {
+                Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("testando 3 ");
+                try {
+            stream1 = new FileInputStream("/C:/Users/dudub/Documents/NetBeansProjects/ArquiteturaGerenciaEventos/src/text/insertuseronlycpf.txt");
+                    System.out.println("testando 4");
+                } catch (FileNotFoundException ex) {
+            Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        InputStreamReader reader1 = new InputStreamReader(stream1);
+        BufferedReader br1 = new BufferedReader(reader1);
+        System.out.println("tenntando entrar aqui");
+        String linha1 = "";
+        while(linha1 != null) {
+            System.out.println(linha);
+            System.out.println("tenntando entrar aqui 1");
+            try {
+                linha1 = br1.readLine();
+                System.out.println("tenntando entrar aqui 2");
+                uheDAO.InsertModeOff(linha1);
+                System.out.println("tenntando entrar aqui 3");
+                JOptionPane.showMessageDialog(this, "Data Synchronized Sucessfully");
+            } catch (IOException ex) {
+                Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnSyncDataActionPerformed
 
     
     
@@ -649,6 +801,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     private javax.swing.JButton btnClose1;
     private javax.swing.JButton btnOfflineMode;
     private javax.swing.JButton btnOnlineMode;
+    private javax.swing.JButton btnSyncData;
     private javax.swing.JCheckBox checkBoxParticipantWithAccount;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

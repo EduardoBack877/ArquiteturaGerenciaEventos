@@ -17,6 +17,7 @@ import javax.swing.table.TableColumn;
 import screens.IfrUserRegister;
 import static screens.Login.userId;
 import support.DBConnection;
+import support.DBConnectionLocalHost;
 import support.IDAOT;
 
 /**
@@ -35,8 +36,8 @@ public class UserDAO implements IDAOT<User> {
     public boolean autentication(String login, String password) {
 
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
-
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();    
             String sql = ""
                     + "SELECT * "
                     + "FROM userr "
@@ -47,7 +48,7 @@ public class UserDAO implements IDAOT<User> {
             System.out.println("SQL: " + sql);
 
             resultadoQ = st.executeQuery(sql);
-
+            resultadoQ = st3.executeQuery(sql);
             return resultadoQ.next();
 
         } catch (Exception e) {
@@ -59,7 +60,8 @@ public class UserDAO implements IDAOT<User> {
     public int returnIdUserLogged(String login, String password) {
         int id = 0;
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             
             String sql = ""
                     + "SELECT id "
@@ -69,6 +71,7 @@ public class UserDAO implements IDAOT<User> {
                     + "password = '" + password + "'";
 
             resultadoQ6 = st.executeQuery(sql);
+            resultadoQ6 = st3.executeQuery(sql);
             while (resultadoQ6.next()) {
             id = resultadoQ6.getInt("id");
             }
@@ -86,7 +89,8 @@ public class UserDAO implements IDAOT<User> {
         public String returnTypeUserLogged(int id) {
         String clerk = "";
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             
             String sql = ""
                     + "SELECT clerk as clerk "
@@ -95,6 +99,7 @@ public class UserDAO implements IDAOT<User> {
                     + "id = " + id;
 
             resultadoQ6 = st.executeQuery(sql);
+            resultadoQ6 = st3.executeQuery(sql);
             while (resultadoQ6.next()) {
             clerk = resultadoQ6.getString("clerk");
             }
@@ -127,7 +132,8 @@ public class UserDAO implements IDAOT<User> {
         public String returnNameUserLogged(String login, String password) {
         String name = "";
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             
             String sql = ""
                     + "SELECT name "
@@ -137,6 +143,7 @@ public class UserDAO implements IDAOT<User> {
                     + "password = '" + password + "'";
 
             resultadoQ6 = st.executeQuery(sql);
+            resultadoQ6 = st3.executeQuery(sql);
             while (resultadoQ6.next()) {
             name = resultadoQ3.getString("name");
             }
@@ -163,9 +170,11 @@ public class UserDAO implements IDAOT<User> {
         public int consultComboGenre (int id) {
             int idaux = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "SELECT genre FROM userr WHERE id = " + id;
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
             String aux = "";
             while (resultadoQ3.next()) {
                aux = resultadoQ3.getString("genre");
@@ -191,9 +200,11 @@ public class UserDAO implements IDAOT<User> {
         public int consultComboActive (int id) {
             int idaux = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "SELECT active FROM userr WHERE id = " + id;
             resultadoQ5 = st2.executeQuery(sql3);
+            resultadoQ5 = st3.executeQuery(sql3);
             String aux = "";
             while (resultadoQ5.next()) {
                aux = resultadoQ5.getString("active");
@@ -214,7 +225,8 @@ public class UserDAO implements IDAOT<User> {
      public String returnpassword (int id) {
          String passaux = null;
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
 
             String sql = ""
                     + "SELECT password "
@@ -222,6 +234,7 @@ public class UserDAO implements IDAOT<User> {
                     + "WHERE "
                     + "id = " + id;
             resultadoQ2 = st.executeQuery(sql);
+            resultadoQ2 = st3.executeQuery(sql);
 
             if (resultadoQ2.next()) {
                 passaux = resultadoQ2.getString("password");
@@ -236,7 +249,9 @@ public class UserDAO implements IDAOT<User> {
     
     public boolean savewithoutmd5 (User u) {
            try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
+            
             String sql = "";
             
            
@@ -255,6 +270,7 @@ public class UserDAO implements IDAOT<User> {
             System.out.println("SQL: " + sql);
 
             int resultado1 = st.executeUpdate(sql);
+            resultado1 = st3.executeUpdate(sql);
 
             return resultado1 > 0;
 
@@ -268,11 +284,13 @@ public class UserDAO implements IDAOT<User> {
       public boolean consultCpf (String cpf) {
           boolean y = true;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "SELECT * "
                     + "FROM userr "
                     + "WHERE cpf = '" + cpf + "'";
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
             if (!resultadoQ3.isBeforeFirst()) {
               y = false;
             } else {
@@ -297,12 +315,8 @@ public class UserDAO implements IDAOT<User> {
                     + "FROM userr "
                     + "WHERE cpf = '" + cpf + "'";
             resultadoQ3 = st2.executeQuery(sql3);
-            System.out.println(sql3);
-            System.out.println("TENTEI ENTRAR NO IF GALERA");
             if (resultadoQ3.next()) {
-                System.out.println("ESTOU DENTRO DO IF GALERA");
                 y =  resultadoQ3.getInt("id");
-                System.out.println("O VALOR DO Y QUE ESTOU FAZENDO É " + y);
             } 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,14 +324,40 @@ public class UserDAO implements IDAOT<User> {
         }
          return y;
       }
+          
+         public int consultIdUserLocalHost (String cpf) {
+          int y = 0;
+        try {
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            String sql3 = "SELECT id "
+                    + "FROM userr "
+                    + "WHERE cpf = '" + cpf + "'";
+            resultadoQ3 = st2.executeQuery(sql3);
+            if (resultadoQ3.next()) {
+                y =  resultadoQ3.getInt("id");
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+             
+        }
+         return y;
+      } 
+          
+          
+          
+          
+          
+          
     
           
         public void insertUserOnlyCpf (String cpf) {
           int y = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "INSERT INTO userr VALUES (default,NULL,NULL,NULL,'"+cpf+"',NULL,NULL,NULL,NULL,NULL)";
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
              
@@ -327,7 +367,8 @@ public class UserDAO implements IDAOT<User> {
           public void insertUserExceptCpf (User u) {
           int y = 0;
         try {
-            Statement st2 = DBConnection.getInstance().getConnection().createStatement();
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql3 = "UPDATE userr SET name = '" + u.getName() + "',"
                     +  "email = '" + u.getEmail() + "',"
                     +  "password = md5('" + u.getPassword() + "'),"
@@ -340,6 +381,7 @@ public class UserDAO implements IDAOT<User> {
 
                  
             resultadoQ3 = st2.executeQuery(sql3);
+            resultadoQ3 = st3.executeQuery(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
              
@@ -360,7 +402,8 @@ public class UserDAO implements IDAOT<User> {
     @Override
     public boolean save(User u) {
            try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
             String sql = "";
             
              if (u.getId() == 0) {
@@ -394,6 +437,7 @@ public class UserDAO implements IDAOT<User> {
             System.out.println("SQL: " + sql);
 
             int resultado = st.executeUpdate(sql);
+            resultado = st3.executeUpdate(sql);
 
             return resultado > 0;
 
@@ -412,8 +456,8 @@ public class UserDAO implements IDAOT<User> {
     @Override
     public boolean delete(int id) {
         try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
-
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();   
             String sql = "UPDATE userr "
                     + "SET active = 'I' "
                     + "WHERE id = " + id;
@@ -421,7 +465,7 @@ public class UserDAO implements IDAOT<User> {
             System.out.println("SQL: " + sql);
 
             st.executeUpdate(sql);
-
+            st3.executeUpdate(sql);
             return true;
 
         } catch (Exception e) {
@@ -446,7 +490,8 @@ public class UserDAO implements IDAOT<User> {
 
         try {
             String p;
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();  
             System.out.println("aqu");
             String sql1 = "SELECT id, name, email, password, cpf, phone, to_char(birthdate, 'dd/MM/yyyy') as birthdate ,genre, active "
                     + "FROM userr "
@@ -455,6 +500,7 @@ public class UserDAO implements IDAOT<User> {
             System.out.println("SQL: " + sql1);
             //int aux = Integer.parseInt(resultadoQ1.getString("status"));
             resultadoQ1 = st.executeQuery(sql1);
+            resultadoQ1 = st3.executeQuery(sql1);
             if (resultadoQ1.next()) {
                 u = new User();
                 System.out.println("1");
@@ -479,13 +525,15 @@ public class UserDAO implements IDAOT<User> {
     
     public boolean setDataStyle () {
       try {
-            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();  
             String sql = "";
                   sql = "set datestyle to DMY";
 
             System.out.println("SQL: " + sql);
 
             int resultado = st.executeUpdate(sql);
+            resultado = st3.executeUpdate(sql);
 
             return resultado > 0;
 
@@ -515,7 +563,7 @@ public class UserDAO implements IDAOT<User> {
        
         //efetua consulta na tabela
         try {
-            resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+            resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
                     + "SELECT id, "
                     + "name, "
@@ -525,15 +573,17 @@ public class UserDAO implements IDAOT<User> {
                     + "WHERE name ILIKE '%" + criterio + "%'"
                     + "ORDER BY id");
             
-            String sqlteste = "SELECT id, name, email, active "
-                    + "FROM userr "
+             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT id, "
+                    + "name, "
+                    + "email, "
+                    + "active "
+                    + "FROM userr " 
                     + "WHERE name ILIKE '%" + criterio + "%'"
-                    + "ORDER BY id";
-            System.out.println(sqlteste);
+                    + "ORDER BY id");
             
-            System.out.println("cheguei aqui");
-            // captura a linha = num de registros
-            // retorna para o inicio
+                    
   
               resultadoQ.last();
             int numRegistros = resultadoQ.getRow();
@@ -638,6 +688,18 @@ public class UserDAO implements IDAOT<User> {
        
         //efetua consulta na tabela
         try {
+            resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+  ResultSet.CONCUR_READ_ONLY).executeQuery(""
+                    + "SELECT DISTINCT userr.id, "
+                    + "userr.name, "
+                    + "userr.cpf, "
+                    + "userr.phone "
+                    + "FROM userr " 
+                    + "JOIN userhasevents ON userr.id = userhasevents.iduser "
+                    + "JOIN events ON events.id = userhasevents.idevent "
+                    + "WHERE userr.name ILIKE '%" + criterio + "%' AND userhasevents.idevent = " + idevent + " AND userhasevents.active = 'N' "
+                    + "ORDER BY userr.id");
+            
             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
                     + "SELECT DISTINCT userr.id, "

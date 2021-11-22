@@ -12,20 +12,20 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-public class DBConnection {
+public class DBConnectionLocalHost {
 
-    private static DBConnection instancia = null;
+    private static DBConnectionLocalHost instancia = null;
     private Connection conexao = null;
 
-    public DBConnection() {
+    public DBConnectionLocalHost() {
         try {
             // Carrega informações do arquivo de propriedades
             Properties prop = new Properties();
             //prop.load(new FileInputStream("C:\\Users\\Eduardo Back\\Documents\\NetBeansProjects\\RecDesp\\db.properties"));
             String dbdriver = "org.postgresql.Driver";//prop.getProperty("db.driver");
-            String dburl = "jdbc:postgresql://ec2-3-214-121-14.compute-1.amazonaws.com:5432/d2gcqgu3ij9eek";
-            String dbuser = "gojatuztmsagzq";//prop.getProperty("db.user");
-            String dbsenha = "d06b4345b759f8c4829ce33af418d426ea23ce215e3cb242166bfb1e28ad87b1";
+            String dburl = "jdbc:postgresql://localhost:5432/gerenciaarqsoftwareback";
+            String dbuser = "postgres";//prop.getProperty("db.user");
+            String dbsenha = "postgres";
 
             // Carrega Driver do Banco de Dados
             Class.forName(dbdriver);
@@ -44,9 +44,9 @@ public class DBConnection {
     }
 
     // Retorna instância
-    public static DBConnection getInstance() {
+    public static DBConnectionLocalHost getInstance() {
         if (instancia == null) {
-            instancia = new DBConnection();
+            instancia = new DBConnectionLocalHost();
         }
         return instancia;
     }

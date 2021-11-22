@@ -5,10 +5,13 @@
 package dao;
 
 import entity.UserHasEvents;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import static screens.Login.userId;
 import support.DBConnection;
+import support.DBConnectionLocalHost;
 import support.IDAOT;
 
 /**
@@ -43,6 +46,19 @@ public class UserHasEventsDAO implements IDAOT<UserHasEvents> {
             return false;
         }
     }
+    
+    public void InsertModeOff(String linha) throws SQLException {
+        ResultSet resultadoQ1 = null;
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            //Statement st = DBConnection.getInstance().getConnection().createStatement();
+            resultadoQ1 = st2.executeQuery(linha);
+            //resultadoQ1 = st.executeQuery(linha);
+       
+    }
+    
+    
+    
+    
 
     @Override
     public boolean update(UserHasEvents o) {
