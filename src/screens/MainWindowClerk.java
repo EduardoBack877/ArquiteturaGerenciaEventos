@@ -5,6 +5,7 @@
  */
 package screens;
 
+import java.io.IOException;
 import support.DBConnection;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -96,8 +97,11 @@ public class MainWindowClerk extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        IfrEventAttendance u = new IfrEventAttendance();
-        u.setVisible(true);        // TODO add your handling code here:
+
+            IfrEventAttendance u;
+            u = new IfrEventAttendance();
+            u.setVisible(true);
+            
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**

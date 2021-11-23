@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static screens.Login.userId;
 import support.DBConnection;
 import support.DBConnectionLocalHost;
@@ -23,6 +25,7 @@ public class UserHasEventsDAO implements IDAOT<UserHasEvents> {
     @Override
     public boolean save(UserHasEvents o) {
         try {
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
             Statement st = DBConnection.getInstance().getConnection().createStatement();
             String sql = "";
             
@@ -37,7 +40,8 @@ public class UserHasEventsDAO implements IDAOT<UserHasEvents> {
            
             System.out.println("SQL: " + sql);
 
-            int resultado1 = st.executeUpdate(sql);
+            int resultado1 = st2.executeUpdate(sql);
+            resultado1 = st.executeUpdate(sql);
 
             return resultado1 > 0;
 
@@ -47,13 +51,17 @@ public class UserHasEventsDAO implements IDAOT<UserHasEvents> {
         }
     }
     
-    public void InsertModeOff(String linha) throws SQLException {
-        ResultSet resultadoQ1 = null;
+    public void InsertModeOff(String linha)  {
+        try {
             Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
-            //Statement st = DBConnection.getInstance().getConnection().createStatement();
-            resultadoQ1 = st2.executeQuery(linha);
-            //resultadoQ1 = st.executeQuery(linha);
-       
+            Statement st = DBConnection.getInstance().getConnection().createStatement();
+            st2.executeUpdate(linha);
+            st.executeUpdate(linha);
+            System.out.println("entrei aqui no insertmode 2");
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHasEventsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("entrei aqui no insertmode 3");
+        }
     }
     
     

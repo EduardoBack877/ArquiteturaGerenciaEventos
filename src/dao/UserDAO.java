@@ -113,6 +113,28 @@ public class UserDAO implements IDAOT<User> {
         return clerk;
     }
     
+        public int returnLastUserId() {
+        int id = 0;
+        try {
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT max(id) as id "
+                    + "FROM userr ";
+            resultadoQ6 = st.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            id = resultadoQ6.getInt("id");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error to find max id: " + e);
+        }
+        
+        return id;
+    }
+        
+        
+        
     
     
     
@@ -351,18 +373,39 @@ public class UserDAO implements IDAOT<User> {
     
           
         public void insertUserOnlyCpf (String cpf) {
+        try {
+            int y = 0;
+            
+            Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
+            String sql3 = "INSERT INTO userr VALUES (default,NULL,NULL,NULL,'"+cpf+"',NULL,NULL,NULL,NULL,NULL)";
+            st2.executeUpdate(sql3);
+            st3.executeUpdate(sql3);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      }
+        
+          public void insertUserHasEventsUserOnlyCpf (int iduser, int idevent) {
           int y = 0;
         try {
             Statement st2 = DBConnectionLocalHost.getInstance().getConnection().createStatement();
             Statement st3 = DBConnection.getInstance().getConnection().createStatement();
-            String sql3 = "INSERT INTO userr VALUES (default,NULL,NULL,NULL,'"+cpf+"',NULL,NULL,NULL,NULL,NULL)";
-            resultadoQ3 = st2.executeQuery(sql3);
-            resultadoQ3 = st3.executeQuery(sql3);
+            String sql3 = "INSERT INTO userhasevents VALUES ("
+                        + "default,'Y','Registered','Y'," + iduser + "," + idevent + ")";
+            st2.executeUpdate(sql3);
+            st3.executeUpdate(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
              
         }
       }
+        
+        
+        
+        
+        
         
           public void insertUserExceptCpf (User u) {
           int y = 0;

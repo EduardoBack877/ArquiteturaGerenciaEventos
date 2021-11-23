@@ -64,8 +64,8 @@ public class EventsDAO implements IDAOT<Events> {
             String sql3 = "UPDATE userhasevents "
                     + "SET status = 'Canceled' "
                     + "WHERE iduser = " + user + " AND idevent = " + event;
-            resultadoQ3 = st2.executeQuery(sql3);
-            resultadoQ3 = st3.executeQuery(sql3);
+            st2.executeUpdate(sql3);
+            st3.executeUpdate(sql3);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -378,7 +378,7 @@ public class EventsDAO implements IDAOT<Events> {
         try {
             resultadoQ = DBConnectionLocalHost.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
-                    + "SELECT events.id, "
+                    + "SELECT DISTINCT events.id, "
                     + "events.description, "
                     + "events.location, "
                     + "events.category, "
@@ -393,7 +393,7 @@ public class EventsDAO implements IDAOT<Events> {
             
             resultadoQ = DBConnection.getInstance().getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
   ResultSet.CONCUR_READ_ONLY).executeQuery(""
-                    + "SELECT events.id, "
+                    + "SELECT DISTINCT events.id, "
                     + "events.description, "
                     + "events.location, "
                     + "events.category, "
