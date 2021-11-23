@@ -17,10 +17,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import support.Email;
 import support.Formatacao;
 
 /**
@@ -82,6 +92,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         tfdIdEvents = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         tfdIdUser = new javax.swing.JTextField();
+        EnviarEmail = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -203,6 +214,13 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             }
         });
 
+        EnviarEmail.setText("Enviar Email");
+        EnviarEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnviarEmailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -255,6 +273,10 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                                 .addGap(0, 128, Short.MAX_VALUE))
                             .addComponent(jScrollPane2))))
                 .addGap(24, 24, 24))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(EnviarEmail)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +294,9 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(11, 11, 11)
+                        .addComponent(EnviarEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -743,16 +767,16 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_btnSyncDataActionPerformed
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private void EnviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarEmailActionPerformed
+        try {
+            Email em = new Email();
+            em.enviarEmail();
+        } catch (MessagingException ex) {
+            Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_EnviarEmailActionPerformed
+
+   
     /**
      * @param args the command line arguments
      */
@@ -793,6 +817,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EnviarEmail;
     private javax.swing.JTable TableUsersAttendance;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnClose1;
