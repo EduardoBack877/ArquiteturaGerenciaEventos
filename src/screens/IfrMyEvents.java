@@ -5,9 +5,14 @@
 package screens;
 
 import dao.EventsDAO;
+import dao.UserDAO;
 import entity.Events;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import static screens.Login.userId;
+import support.Email;
 
 /**
  *
@@ -225,12 +230,24 @@ public class IfrMyEvents extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         EventsDAO eDAO = new EventsDAO();
         String idString = String.valueOf(tableAvailableEvents.getValueAt(tableAvailableEvents.getSelectedRow(), 0));
+        String description = "";
+        String email = "";
         int idS = Integer.parseInt(idString);
         int days = eDAO.returnDateDiffCurrentDateVsEventDate(idS);
         System.out.println("A QUANTIDADEDE DAYS É " + days);
         if (days > 2) {
-            eDAO.cancelEvent(userId, idS); 
-            JOptionPane.showMessageDialog(null, "Event sucessfully canceled!");
+            try {
+                eDAO.cancelEvent(userId, idS);
+                JOptionPane.showMessageDialog(null, "Event sucessfully canceled!");
+                Email em= new Email();
+                UserDAO udao = new UserDAO();
+                email = udao.returnEmailUserId(userId);
+                EventsDAO edao = new EventsDAO();
+                description = edao.returnEventDescription(idS);
+                em.enviarEmailCancelInscricao(email, description);
+            } catch (MessagingException ex) {
+                Logger.getLogger(IfrMyEvents.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } else {
           JOptionPane.showMessageDialog(null, "Cancellation period closed!");

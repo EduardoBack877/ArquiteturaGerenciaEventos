@@ -83,6 +83,27 @@ public class EventsDAO implements IDAOT<Events> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+     
+             public String returnEventDescription(int id) {
+        String description = "";
+        try {
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT description as description "
+                    + "FROM events "
+                    + "WHERE id = " + id;
+            resultadoQ = st.executeQuery(sql);
+            while (resultadoQ.next()) {
+            description = resultadoQ.getString("description");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error to find description: " + e);
+        }
+        
+        return description;
+    }
     
     
     

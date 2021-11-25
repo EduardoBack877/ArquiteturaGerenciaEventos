@@ -134,6 +134,27 @@ public class UserDAO implements IDAOT<User> {
     }
         
         
+        public String returnEmailUserId(int id) {
+        String email = "";
+        try {
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT email as email "
+                    + "FROM userr "
+                    + "WHERE id = " + id;
+            resultadoQ6 = st.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            email = resultadoQ6.getString("email");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error to find max id: " + e);
+        }
+        
+        return email;
+    }
+        
         
     
     

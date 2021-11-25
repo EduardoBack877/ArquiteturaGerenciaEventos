@@ -30,6 +30,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static screens.Login.userId;
 import support.Email;
 import support.Formatacao;
 
@@ -92,7 +93,6 @@ public class IfrEventAttendance extends javax.swing.JFrame {
         tfdIdEvents = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         tfdIdUser = new javax.swing.JTextField();
-        EnviarEmail = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -214,13 +214,6 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             }
         });
 
-        EnviarEmail.setText("Enviar Email");
-        EnviarEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EnviarEmailActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -273,10 +266,6 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                                 .addGap(0, 128, Short.MAX_VALUE))
                             .addComponent(jScrollPane2))))
                 .addGap(24, 24, 24))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(EnviarEmail)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,9 +283,7 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2)
-                        .addGap(11, 11, 11)
-                        .addComponent(EnviarEmail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -580,15 +567,24 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-           new EventsDAO().saveAttendance(idE,idS);
-           JOptionPane.showMessageDialog(this, "Attendance Confirmed");
-           /*DefaultTableModel model = new DefaultTableModel();
-           DefaultTableModel tMOdel = (DefaultTableModel) tableAvailableEvents.getModel();
-           tMOdel.setRowCount(0);*/
-           DefaultTableModel model1 = new DefaultTableModel();
-           DefaultTableModel tMOdel1 = (DefaultTableModel) TableUsersAttendance.getModel();
-           tMOdel1.setRowCount(0);
-           tfdIdUser.setText("");
+        try {
+            new EventsDAO().saveAttendance(idE,idS);
+            JOptionPane.showMessageDialog(this, "Attendance Confirmed");
+            String email = "";
+            String description = "";
+            Email em= new Email();
+            UserDAO udao = new UserDAO();
+            email = udao.returnEmailUserId(idE);
+            EventsDAO edao = new EventsDAO();
+            description = edao.returnEventDescription(idS);
+            em.enviarEmailAttendanceInscricao(email, description);
+            DefaultTableModel model1 = new DefaultTableModel();
+            DefaultTableModel tMOdel1 = (DefaultTableModel) TableUsersAttendance.getModel();
+            tMOdel1.setRowCount(0);
+            tfdIdUser.setText("");
+        } catch (MessagingException ex) {
+            Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void tfdIdEvents1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdIdEvents1ActionPerformed
@@ -628,13 +624,23 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill the CPF field!");
         } else {
           if (udao.consultCpf(cpf)) {
-              System.out.println("entrei aqui 4");
-              user = udao.consultIdUser(cpf);
-              System.out.println("entrei aqui 5");
-              edao.insertUserHasEvents(user, event);
-              System.out.println("entrei aqui 6");
-              JOptionPane.showMessageDialog(this, "Attendance Confirmed");
-              tfdCpfs.setText("");
+              try {
+                  System.out.println("entrei aqui 4");
+                  user = udao.consultIdUser(cpf);
+                  System.out.println("entrei aqui 5");
+                  edao.insertUserHasEvents(user, event);
+                  System.out.println("entrei aqui 6");
+                  JOptionPane.showMessageDialog(this, "Attendance Confirmed");
+                  String email = "";
+                  String description = "";
+                  Email em= new Email();
+                  email = udao.returnEmailUserId(idE);
+                  description = edao.returnEventDescription(idS);
+                  em.enviarEmailAttendanceInscricao(email, description);
+                  tfdCpfs.setText("");
+              } catch (MessagingException ex) {
+                  Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
+              }
           } else {
                   System.out.println("entrei aqui");
                   udao.insertUserOnlyCpf(cpf);
@@ -767,15 +773,6 @@ public class IfrEventAttendance extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_btnSyncDataActionPerformed
 
-    private void EnviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarEmailActionPerformed
-        try {
-            Email em = new Email();
-            em.enviarEmail();
-        } catch (MessagingException ex) {
-            Logger.getLogger(IfrEventAttendance.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_EnviarEmailActionPerformed
-
    
     /**
      * @param args the command line arguments
@@ -817,7 +814,6 @@ public class IfrEventAttendance extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton EnviarEmail;
     private javax.swing.JTable TableUsersAttendance;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnClose1;

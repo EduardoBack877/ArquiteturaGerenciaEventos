@@ -10,8 +10,12 @@ import dao.UserHasEventsDAO;
 import entity.Events;
 import entity.User;
 import entity.UserHasEvents;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import static screens.Login.userId;
+import support.Email;
 
 /**
  *
@@ -417,10 +421,22 @@ public class IfrEvents extends javax.swing.JFrame {
         UserHasEventsDAO uheDAO = new UserHasEventsDAO();
         UserHasEvents uhe = new UserHasEvents();
         String idString = String.valueOf(tableAvailableEvents.getValueAt(tableAvailableEvents.getSelectedRow(), 0));
+        String email = "";
+        String description = "";
         int idZ = Integer.parseInt(idString);
         uhe.setIdevent(idZ);
         if (uheDAO.save(uhe)) {
-            JOptionPane.showMessageDialog(this, "Your application has been submitted successfully");
+            try {
+                JOptionPane.showMessageDialog(this, "Your application has been submitted successfully");
+                Email em= new Email();
+                UserDAO udao = new UserDAO();
+                email = udao.returnEmailUserId(userId);
+                EventsDAO edao = new EventsDAO();
+                description = edao.returnEventDescription(idZ);
+                em.enviarEmailConfirmInscricao(email, description);
+            } catch (MessagingException ex) {
+                Logger.getLogger(IfrEvents.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Please select one event!");
         }
