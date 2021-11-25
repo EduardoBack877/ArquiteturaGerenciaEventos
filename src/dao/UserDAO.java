@@ -85,6 +85,52 @@ public class UserDAO implements IDAOT<User> {
         return id;
     }
     
+    public int returnIdUserCpf(String cpf) {
+        int id = 0;
+        try {
+            Statement st = DBConnectionLocalHost.getInstance().getConnection().createStatement();
+            Statement st3 = DBConnection.getInstance().getConnection().createStatement();
+            
+            String sql = ""
+                    + "SELECT id "
+                    + "FROM userr "
+                    + "WHERE "
+                    + "cpf = '" + cpf + "' AND ";
+
+
+            resultadoQ6 = st.executeQuery(sql);
+            resultadoQ6 = st3.executeQuery(sql);
+            while (resultadoQ6.next()) {
+            id = resultadoQ6.getInt("id");
+            }
+            
+            
+
+        } catch (Exception e) {
+            System.out.println("Authentication Error: " + e);
+        }
+        
+        return id;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
         public String returnTypeUserLogged(int id) {
         String clerk = "";

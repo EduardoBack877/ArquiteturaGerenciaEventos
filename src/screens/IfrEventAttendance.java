@@ -634,8 +634,9 @@ public class IfrEventAttendance extends javax.swing.JFrame {
                   String email = "";
                   String description = "";
                   Email em= new Email();
+                  idE = udao.consultIdUser(cpf);
                   email = udao.returnEmailUserId(idE);
-                  description = edao.returnEventDescription(idS);
+                  description = edao.returnEventDescription(event);
                   em.enviarEmailAttendanceInscricao(email, description);
                   tfdCpfs.setText("");
               } catch (MessagingException ex) {
